@@ -17,15 +17,29 @@ public class UsrArticleController {
 	public UsrArticleController() {
 		this.lastArticleId = 0;
 		articles = new ArrayList<>();
+		makeTestData();
 	}
-
+	
+	public void makeTestData() {
+		for(int i = 1; i <= 10; i++) {
+			String title = "제목";
+			String body = "내용";
+			doWrite(title, body);
+		}
+	}
+	
+	public int doWrite(String title ,String body) {
+		int id = lastArticleId + 1;
+		Article article = new Article(id, title, body);
+		articles.add(article);
+		lastArticleId++;
+		return id;
+	}
+	
 	@RequestMapping("/usr/article/write")
 	@ResponseBody
 	public String write(String title, String body){
-		int id = lastArticleId + 1;
-		lastArticleId++;
-		Article article = new Article(id, title, body);
-		articles.add(article);
+		int id = doWrite(title, body);
 		return id + "번 글이 생성됌";
 	}
 	
