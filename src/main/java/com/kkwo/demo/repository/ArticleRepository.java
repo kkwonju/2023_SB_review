@@ -1,58 +1,27 @@
 package com.kkwo.demo.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.kkwo.demo.vo.Article;
 
-@Component
-public class ArticleRepository {
-	private int lastArticleId;
-	private List<Article> articles;
-	
-	public ArticleRepository() {
-		this.lastArticleId = 0;
-		this.articles = new ArrayList<>();
-	}
-	
-	public void makeTestData() {
-		for(int i = 1; i <= 10; i++) {
-			String title = "제목";
-			String body = "내용";
-			addArticle(title, body);
-		}
-	}
-	
-	public void modifyArticle(Article article, String title, String body) {
-		article.setTitle(title);
-		article.setBody(body);
-	}
-	
-	public void deleteArticle(Article article) {
-		articles.remove(article);
-	}
-	
-	public int addArticle(String title ,String body) {
-		int id = lastArticleId + 1;
-		Article article = new Article(id, title, body);
-		articles.add(article);
-		lastArticleId++;
-		return id;
-	}
-	
-	public Article getArticle(int id) {
-		for(Article article : articles) {
-			if(article.getId() == id) {
-				return article;
-			}
-		}
-		return null;
-	}
-
-	public List<Article> getArticles() {
-		return articles;
-	}
-	
+@Mapper
+public interface ArticleRepository {
+	@Insert("INSERT INTO article SET title = #{title}, body = #{body}")
+	public void doWrite(String title ,String body);
+	@Select("SELECT * FROM article WHERE id = #{id}")
+	public Article getArticle(int id);
+	@Select("SELECT * FROM article ORDER BY id DESC")
+	public List<Article> getArticles();
+	@Update("UPDATE article SET title = #{title}, body = #{body}")
+	public void modifyArticle(int id, String title, String body);
+	@Delete("DELETE FROM article WHERE id = #{id}")
+	public void deleteArticle(int id);
+	@Select("SELECT LAST_INSERT_ID()")
+	public int getLastInsertId();
 }

@@ -15,13 +15,12 @@ public class ArticleService {
 	
 	public ArticleService(ArticleRepository articleRepository) {
 		this.articleRepository = articleRepository;
-		articleRepository.makeTestData();
 	}
 	
 	/* 게시글 작성 */
 	public int doWrite(String title, String body) {
-		int id = articleRepository.addArticle(title, body);
-		return id;
+		articleRepository.doWrite(title, body);
+		return articleRepository.getLastInsertId();
 	}
 	
 	/* 게시글 */
@@ -35,12 +34,12 @@ public class ArticleService {
 	}
 	
 	/* 게시글 수정 */
-	public void modifyArticle(Article article, String title, String body) {
-		articleRepository.modifyArticle(article, title, body);
+	public void modifyArticle(int id, String title, String body) {
+		articleRepository.modifyArticle(id, title, body);
 	}
 	
 	/* 게시글 삭제 */
-	public void deleteArticle(Article article) {
-		articleRepository.deleteArticle(article);
+	public void deleteArticle(int id) {
+		articleRepository.deleteArticle(id);
 	}
 }
