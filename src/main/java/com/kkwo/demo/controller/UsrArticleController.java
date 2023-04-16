@@ -25,13 +25,13 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/article")
 	@ResponseBody
 	public Article showArticle(int id){
-		return articleService.showArticle(id);
+		return articleService.getArticle(id);
 	}
 	
 	@RequestMapping("/usr/article/list")
 	@ResponseBody
 	public List<Article> showList(){
-		return articleService.showList();
+		return articleService.getArticles();
 	}
 	
 	@RequestMapping("/usr/article/modify")
