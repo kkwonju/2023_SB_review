@@ -17,8 +17,8 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/write")
 	@ResponseBody
-	public String doWrite(String title, String body){
-		int id = articleService.doWrite(title, body);
+	public String writeArticle(String title, String body){
+		int id = articleService.writeArticle(title, body);
 		return id + "번 글이 생성됌";
 	}
 	

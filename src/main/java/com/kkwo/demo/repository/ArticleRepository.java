@@ -12,16 +12,15 @@ import com.kkwo.demo.vo.Article;
 
 @Mapper
 public interface ArticleRepository {
-	@Insert("INSERT INTO article SET title = #{title}, body = #{body}")
-	public void doWrite(String title ,String body);
-	@Select("SELECT * FROM article WHERE id = #{id}")
+	public void writeArticle(String title ,String body);
+	
 	public Article getArticle(int id);
-	@Select("SELECT * FROM article ORDER BY id DESC")
+	
 	public List<Article> getArticles();
-	@Update("UPDATE article SET title = #{title}, body = #{body}")
+	
 	public void modifyArticle(int id, String title, String body);
-	@Delete("DELETE FROM article WHERE id = #{id}")
+	
 	public void deleteArticle(int id);
-	@Select("SELECT LAST_INSERT_ID()")
+	
 	public int getLastInsertId();
 }

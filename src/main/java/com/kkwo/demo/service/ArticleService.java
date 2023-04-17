@@ -18,8 +18,8 @@ public class ArticleService {
 	}
 	
 	/* 게시글 작성 */
-	public int doWrite(String title, String body) {
-		articleRepository.doWrite(title, body);
+	public int writeArticle(String title, String body) {
+		articleRepository.writeArticle(title, body);
 		return articleRepository.getLastInsertId();
 	}
 	

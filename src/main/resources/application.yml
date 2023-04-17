@@ -8,4 +8,4 @@ spring:
     username: root
     password: 
 mybatis:
-  type-aliases-package: com..kkwo.demo.vo
+  type-aliases-package: com.kkwo.demo.vo
