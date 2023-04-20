@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import com.kkwo.demo.vo.Member;
+
 @Mapper
 public interface MemberRepository {
 
@@ -19,6 +21,9 @@ public interface MemberRepository {
 			email = #{email}
 			""")
 	void doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email);
+	
+	@Select("SELECT * FROM `member` WHERE id = #{id}")
+	Member getMember(int id);
 	
 	@Select("SELECT LAST_INSERT_ID()")
 	int getLastInsertId();
