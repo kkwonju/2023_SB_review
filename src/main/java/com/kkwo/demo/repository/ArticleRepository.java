@@ -12,7 +12,7 @@ import com.kkwo.demo.vo.Article;
 
 @Mapper
 public interface ArticleRepository {
-	void writeArticle(String title ,String body);
+	void writeArticle(int memberId, String title ,String body);
 	
 	Article getArticle(int id);
 	

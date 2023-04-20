@@ -28,28 +28,22 @@ CREATE TABLE `member`(
     delDate DATETIME COMMENT '탈퇴날짜'
 );
 
-# 게시물 테이블에 작성자 정보 추가
-# Alter table article add column memberId int(10) unsigned not null after `updateDate`;
-
 # 게시물 테스트 데이터 생성
 INSERT INTO article 
 SET regDate = NOW(),
 updateDate = NOW(),
-memberId = 2,
 title = '제목 1',
 `body` = '내용 1';
 
 INSERT INTO article 
 SET regDate = NOW(),
 updateDate = NOW(),
-memberId = 2,
 title = '제목 2',
 `body` = '내용 2';
 
 INSERT INTO article 
 SET regDate = NOW(),
 updateDate = NOW(),
-memberId = 3,
 title = '제목 3',
 `body` = '내용 3';
 
@@ -84,7 +78,18 @@ SET regDate = NOW(),
     nickname = '준하',
     cellphoneNum = '010-2222-2222',
     email = 'ha@naver.com';
-    
+
+# 게시물 테이블에 작성자 정보 추가
+ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER `updateDate`;
+
+UPDATE article
+SET memberid = 2
+WHERE id IN(1,2);
+
+UPDATE article 
+SET memberid = 3
+WHERE id = 3;
+
 SELECT * FROM article;
 
 SELECT * FROM `member`;

@@ -2,12 +2,13 @@ package com.kkwo.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.core.io.UTF32Reader;
 import com.kkwo.demo.service.ArticleService;
 import com.kkwo.demo.util.Ut;
 import com.kkwo.demo.vo.Article;
@@ -20,7 +21,19 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/write")
 	@ResponseBody
-	public ResultData<Article> writeArticle(String title, String body){
+	public ResultData<Article> writeArticle(HttpSession httpSession, String title, String body){
+		
+		boolean isLogined = false;
+		int loginedMemberId = 0;
+		
+		if(httpSession.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
+		}
+		
+		if(!isLogined) {
+			return ResultData.from("F-A", "로그인 후 이용해주세요");
+		}
 		
 		if(Ut.empty(title)) {
 			return ResultData.from("F-1", "제목을 입력해주세요");
@@ -30,7 +43,7 @@ public class UsrArticleController {
 			return ResultData.from("F-2", "내용을 입력해주세요");
 		}
 		
-		ResultData writeRd = articleService.writeArticle(title, body); 
+		ResultData writeRd = articleService.writeArticle(loginedMemberId, title, body); 
 		int id = (int) writeRd.getData1();
 		Article article = articleService.getArticle(id);
 		return ResultData.newData(writeRd, article);
