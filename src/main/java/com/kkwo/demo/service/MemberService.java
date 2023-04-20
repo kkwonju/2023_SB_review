@@ -9,9 +9,9 @@ import com.kkwo.demo.repository.MemberRepository;
 public class MemberService {
 	@Autowired
 	private MemberRepository memberRepository;
-
-	public int doJoin() {
-		memberRepository.doJoin();
+	
+	public int doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+		memberRepository.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
 		int id = memberRepository.getLastInsertId();
 		return id;
 	}

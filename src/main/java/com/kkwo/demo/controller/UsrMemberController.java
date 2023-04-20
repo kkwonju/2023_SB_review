@@ -11,11 +11,12 @@ import com.kkwo.demo.service.MemberService;
 public class UsrMemberController {
 	@Autowired
 	private MemberService memberService;
-	
+
 	@RequestMapping("/usr/member/join")
 	@ResponseBody
-	public String doJoin(String loginId, String loginPw) {
-		int id = memberService.doJoin();
+	public String doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
+			String email) {
+		int id = memberService.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
 		return id + "번 회원 가입됨";
 	}
 

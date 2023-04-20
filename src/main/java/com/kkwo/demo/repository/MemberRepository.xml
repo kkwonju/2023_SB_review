@@ -4,5 +4,4 @@
 
 
 <mapper namespace="com.kkwo.demo.repository.MemberRepository">
-
 </mapper>
