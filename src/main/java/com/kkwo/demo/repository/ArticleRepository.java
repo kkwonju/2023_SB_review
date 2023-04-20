@@ -12,15 +12,15 @@ import com.kkwo.demo.vo.Article;
 
 @Mapper
 public interface ArticleRepository {
-	public void writeArticle(String title ,String body);
+	void writeArticle(String title ,String body);
 	
-	public Article getArticle(int id);
+	Article getArticle(int id);
 	
-	public List<Article> getArticles();
+	List<Article> getArticles();
 	
-	public void modifyArticle(int id, String title, String body);
+	void modifyArticle(int id, String title, String body);
 	
-	public void deleteArticle(int id);
+	void deleteArticle(int id);
 	
-	public int getLastInsertId();
+	int getLastInsertId();
 }
