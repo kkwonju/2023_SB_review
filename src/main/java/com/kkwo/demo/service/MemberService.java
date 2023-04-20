@@ -4,27 +4,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kkwo.demo.repository.MemberRepository;
+import com.kkwo.demo.util.Ut;
 import com.kkwo.demo.vo.Member;
+import com.kkwo.demo.vo.ResultData;
 
 @Service
 public class MemberService {
 	@Autowired
 	private MemberRepository memberRepository;
 
-	public int doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+	public ResultData doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
 		Member existsMember = memberRepository.getMemberByLoginId(loginId);
 		if(existsMember != null) {
-			return -1;
+			return ResultData.from("F-7", Ut.f("이미 가입된 아이디입니다 [%s]", loginId));
 		}
 		
 		existsMember = getMemberByNameAndEmail(name, email);
+		
 		if(existsMember != null) {
-			return -2;
+			return ResultData.from("F-8", Ut.f("이미 가입된 이름과 이메일입니다 [%s, %s])", name, email));
 		}
 		
 		memberRepository.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
+		int id = memberRepository.getLastInsertId();
 		
-		return memberRepository.getLastInsertId();
+		return ResultData.from("S-1", "가입되었습니다", id);
 	}
 
 	public Member getMemberById(int id) {

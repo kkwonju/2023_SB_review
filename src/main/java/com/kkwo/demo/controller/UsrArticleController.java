@@ -44,8 +44,9 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/list")
 	@ResponseBody
-	public List<Article> showList(){
-		return articleService.getArticles();
+	public ResultData showList(){
+		List<Article> articles = articleService.getArticles();
+		return ResultData.from("S-1", "Article List", articles);
 	}
 	
 	@RequestMapping("/usr/article/modify")

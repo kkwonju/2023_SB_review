@@ -23,10 +23,11 @@ public class ResultData {
 		return rd;
 	}
 
+	// 성립 조건 : resultCode가 'S-' 로 시작
 	public boolean isSuccess() {
 		return resultCode.startsWith("S-");
 	}
-
+	
 	public boolean isFail() {
 		return isSuccess() == false;
 	}
