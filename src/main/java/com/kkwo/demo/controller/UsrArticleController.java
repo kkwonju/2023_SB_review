@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.io.UTF32Reader;
 import com.kkwo.demo.service.ArticleService;
 import com.kkwo.demo.util.Ut;
 import com.kkwo.demo.vo.Article;
@@ -51,23 +52,23 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/modify")
 	@ResponseBody
-	public Object doModify(int id, String title, String body){
+	public ResultData<Integer> doModify(int id, String title, String body){
 		Article article = articleService.getArticle(id); 
 		if(article == null) {
-			return id + "번 글은 존재하지 않습니다";
+			return ResultData.from("F-3", Ut.f("%d글은 존재하지 않습니다", id), id);
 		}
 		articleService.modifyArticle(id, title, body);
-		return article;
+		return ResultData.from("S-1", Ut.f("%d번 글을 수정했습니다", id), id);
 	}
 	
 	@RequestMapping("/usr/article/delete")
 	@ResponseBody
-	public String doDelete(int id){
+	public ResultData<Integer> doDelete(int id){
 		Article article = articleService.getArticle(id); 
 		if(article == null) {
-			return id + "번 글은 존재하지 않습니다";
+			return ResultData.from("F-4", Ut.f("%d번 글은 존재하지 않습니다", id), id);
 		}
 		articleService.deleteArticle(id);
-		return id + "번 글을 삭제했습니다";
+		return ResultData.from("S-1", Ut.f("%d번 글을 삭제했습니다", id), id);
 	}
 }
