@@ -23,7 +23,7 @@ public class ResultData<DT> {
 		return rd;
 	}
 	
-	public static <DT> ResultData<DT> newData(ResultData<DT> rd, DT newData){
+	public static <DT> ResultData<DT> newData(ResultData rd, DT newData){
 		return from(rd.getResultCode(), rd.getResultMsg(), newData);
 	}
 
