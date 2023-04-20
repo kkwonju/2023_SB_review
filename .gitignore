@@ -33,4 +33,7 @@ build/
 .vscode/
 
 ### ###
-TODO
+bin/
+
+LOG_PATH_IS_UNDEFINED/
+log/
