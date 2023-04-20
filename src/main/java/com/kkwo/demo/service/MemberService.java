@@ -10,12 +10,23 @@ import com.kkwo.demo.vo.Member;
 public class MemberService {
 	@Autowired
 	private MemberRepository memberRepository;
-	
-	public Member doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+
+	public int doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+		Member existsMember = memberRepository.getMemberByLoginId(loginId);
+		if(existsMember != null) {
+			return -1;
+		}
 		memberRepository.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
-		int id = memberRepository.getLastInsertId();
-		Member member = memberRepository.getMember(id);
-		return member;
+		
+		return memberRepository.getLastInsertId();
+	}
+
+	public Member getMemberById(int id) {
+		return memberRepository.getMemberById(id);
 	}
 	
+	public Member getMemberByLoginId(String loginId) {
+		return memberRepository.getMemberByLoginId(loginId);
+	}
+
 }
