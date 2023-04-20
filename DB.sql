@@ -29,7 +29,7 @@ CREATE TABLE `member`(
 );
 
 # 게시물 테이블에 작성자 정보 추가
-ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER `updateDate`;
+# Alter table article add column memberId int(10) unsigned not null after `updateDate`;
 
 # 게시물 테스트 데이터 생성
 INSERT INTO article 

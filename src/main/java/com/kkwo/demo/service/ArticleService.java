@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kkwo.demo.repository.ArticleRepository;
+import com.kkwo.demo.util.Ut;
 import com.kkwo.demo.vo.Article;
+import com.kkwo.demo.vo.ResultData;
 
 @Service
 public class ArticleService {
@@ -18,9 +20,10 @@ public class ArticleService {
 	}
 	
 	/* 게시글 작성 */
-	public int writeArticle(String title, String body) {
+	public ResultData writeArticle(String title, String body) {
 		articleRepository.writeArticle(title, body);
-		return articleRepository.getLastInsertId();
+		int id = articleRepository.getLastInsertId();
+		return ResultData.from("S-1", Ut.f("%d번 글 생성", id), id);
 	}
 	
 	/* 게시글 */
