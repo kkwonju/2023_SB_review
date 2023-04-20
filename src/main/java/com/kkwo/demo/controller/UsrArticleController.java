@@ -19,7 +19,7 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/write")
 	@ResponseBody
-	public ResultData writeArticle(String title, String body){
+	public ResultData<Article> writeArticle(String title, String body){
 		
 		if(Ut.empty(title)) {
 			return ResultData.from("F-1", "제목을 입력해주세요");
@@ -29,22 +29,22 @@ public class UsrArticleController {
 			return ResultData.from("F-2", "내용을 입력해주세요");
 		}
 		
-		ResultData writeArticleRd = articleService.writeArticle(title, body); 
-		int id = (int) writeArticleRd.getData1();
+		ResultData writeRd = articleService.writeArticle(title, body); 
+		int id = (int) writeRd.getData1();
 		Article article = articleService.getArticle(id);
-		return ResultData.from(writeArticleRd.getResultCode(), writeArticleRd.getResultMsg(), article);
+		return ResultData.newData(writeRd, article);
 	}
 	
 	@RequestMapping("/usr/article/showArticle")
 	@ResponseBody
-	public ResultData showArticle(int id){
+	public ResultData<Article> showArticle(int id){
 		Article article = articleService.getArticle(id); 
 		return ResultData.from("S-1", Ut.f("%d번 게시글", id), article);
 	}
 	
 	@RequestMapping("/usr/article/list")
 	@ResponseBody
-	public ResultData showList(){
+	public ResultData<List> showList(){
 		List<Article> articles = articleService.getArticles();
 		return ResultData.from("S-1", "Article List", articles);
 	}

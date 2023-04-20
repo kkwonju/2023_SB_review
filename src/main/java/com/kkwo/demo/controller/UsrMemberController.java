@@ -17,7 +17,7 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/join")
 	@ResponseBody
-	public ResultData doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
+	public ResultData<Member> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
 			String email) {
 		
 		if(Ut.empty(loginId)) {
@@ -40,13 +40,14 @@ public class UsrMemberController {
 		}
 		
 		ResultData joinRd = memberService.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
+		
 		if(joinRd.isFail()) {
 			return joinRd; 
 		}
 		int id = (int) joinRd.getData1();
 		
 		Member member = memberService.getMemberById(id);
-		return ResultData.from(joinRd.getResultCode(), joinRd.getResultMsg(), member);
+		return ResultData.newData(joinRd, member);
 	}
 
 }
