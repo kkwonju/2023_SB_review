@@ -85,13 +85,13 @@ public class UsrArticleController {
 			return ResultData.from("F-3", Ut.f("%d글은 존재하지 않습니다", id), id);
 		}
 		
-		if(article.getMemberId() != loginedMemberId) {
-			return ResultData.from("F-3", Ut.f("%d번 글에 대한 권한이 없습니다", id), id);
+		ResultData actorCanModifyRd = articleService.actorCanModify(loginedMemberId, article);
+		
+		if(actorCanModifyRd.isFail()) {
+			return actorCanModifyRd;
 		}
 		
-		articleService.modifyArticle(id, title, body);
-		
-		return ResultData.from("S-1", Ut.f("%d번 글을 수정했습니다", id), id);
+		return articleService.modifyArticle(id, title, body);
 	}
 	
 	@RequestMapping("/usr/article/delete")

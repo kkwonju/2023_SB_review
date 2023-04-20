@@ -37,12 +37,24 @@ public class ArticleService {
 	}
 	
 	/* 게시글 수정 */
-	public void modifyArticle(int id, String title, String body) {
+	public ResultData modifyArticle(int id, String title, String body) {
 		articleRepository.modifyArticle(id, title, body);
+		
+		Article article = getArticle(id);
+		
+		return ResultData.from("S-1", Ut.f("%d번 글을 수정했습니다", id), article);
 	}
 	
 	/* 게시글 삭제 */
 	public void deleteArticle(int id) {
 		articleRepository.deleteArticle(id);
+	}
+	
+	/* 수정 권한 체크 */
+	public ResultData actorCanModify(int loginedMemberId, Article article) {
+		if(article.getMemberId() != loginedMemberId) {
+			return ResultData.from("F-3", "해당 글에 대한 권한이 없습니다");
+		}
+		return ResultData.from("S-1", "수정 가능");
 	}
 }
