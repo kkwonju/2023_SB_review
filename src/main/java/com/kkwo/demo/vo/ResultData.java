@@ -8,23 +8,26 @@ public class ResultData<DT> {
 	@Getter
 	private String resultMsg;
 	@Getter
+	private String data1Name;
+	@Getter
 	private DT data1;
 
 	public static <DT> ResultData<DT> from(String resultCode, String resultMsg) {
-		return ResultData.from(resultCode, resultMsg, null);
+		return ResultData.from(resultCode, resultMsg, null, null);
 	}
 
-	public static <DT> ResultData<DT> from(String resultCode, String resultMsg, DT data1) {
+	public static <DT> ResultData<DT> from(String resultCode, String resultMsg, String data1Name, DT data1) {
 		ResultData<DT> rd = new ResultData<DT>();
 		rd.resultCode = resultCode;
 		rd.resultMsg = resultMsg;
+		rd.data1Name = data1Name;
 		rd.data1 = data1;
 
 		return rd;
 	}
 	
-	public static <DT> ResultData<DT> newData(ResultData rd, DT newData){
-		return from(rd.getResultCode(), rd.getResultMsg(), newData);
+	public static <DT> ResultData<DT> newData(ResultData rd, String data1Name, DT newData){
+		return from(rd.getResultCode(), rd.getResultMsg(), data1Name, newData);
 	}
 
 	// 성립 조건 : resultCode가 'S-' 로 시작

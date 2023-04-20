@@ -23,7 +23,7 @@ public class ArticleService {
 	public ResultData<Integer> writeArticle(int memberId, String title, String body) {
 		articleRepository.writeArticle(memberId, title, body);
 		int id = articleRepository.getLastInsertId();
-		return ResultData.from("S-1", Ut.f("%d번 글 생성", id), id);
+		return ResultData.from("S-1", Ut.f("%d번 글 생성", id), "id", id);
 	}
 	
 	/* 게시글 */
@@ -42,7 +42,7 @@ public class ArticleService {
 		
 		Article article = getArticle(id);
 		
-		return ResultData.from("S-1", Ut.f("%d번 글을 수정했습니다", id), article);
+		return ResultData.from("S-1", Ut.f("%d번 글을 수정했습니다", id), "Article", article);
 	}
 	
 	/* 게시글 삭제 */
