@@ -19,113 +19,121 @@ import com.kkwo.demo.vo.ResultData;
 public class UsrArticleController {
 	@Autowired
 	private ArticleService articleService;
-	
+
 	@RequestMapping("/usr/article/write")
 	@ResponseBody
-	public ResultData<Article> writeArticle(HttpSession httpSession, String title, String body){
-		
+	public ResultData<Article> writeArticle(HttpSession httpSession, String title, String body) {
+
 		boolean isLogined = false;
 		int loginedMemberId = 0;
-		
-		if(httpSession.getAttribute("loginedMemberId") != null) {
+
+		if (httpSession.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
 			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
 		}
-		
-		if(!isLogined) {
+
+		if (!isLogined) {
 			return ResultData.from("F-A", "로그인 후 이용해주세요");
 		}
-		
-		if(Ut.empty(title)) {
+
+		if (Ut.empty(title)) {
 			return ResultData.from("F-1", "제목을 입력해주세요");
 		}
-		
-		if(Ut.empty(body)) {
+
+		if (Ut.empty(body)) {
 			return ResultData.from("F-2", "내용을 입력해주세요");
 		}
-		
-		ResultData writeRd = articleService.writeArticle(loginedMemberId, title, body); 
-		
+
+		ResultData writeRd = articleService.writeArticle(loginedMemberId, title, body);
+
 		int id = (int) writeRd.getData1();
-		
+
 		Article article = articleService.getArticle(id);
-		
+
 		return ResultData.newData(writeRd, "Article", article);
 	}
-	
+
 	@RequestMapping("/usr/article/detail")
-	public String showDetail(Model model, int id){
-		Article article = articleService.getArticle(id);
+	public String showDetail(HttpSession httpSession, Model model, int id) {
+		boolean isLogined = false;
+		int loginedMemberId = 0;
+
+		if (httpSession.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
+		}
+
+		Article article = articleService.getForPrintArticle(loginedMemberId, id);
 		model.addAttribute(article);
 		return "usr/article/detail";
 	}
-	
+
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model){
-		List<Article> articles = articleService.getArticles();
+	public String showList(Model model) {
+		List<Article> articles = articleService.getForPrintArticles();
 		model.addAttribute("articles", articles);
 		return "usr/article/list";
 	}
-	
+
 	@RequestMapping("/usr/article/modify")
 	@ResponseBody
-	public ResultData<Integer> doModify( HttpSession httpSession, int id, String title, String body){
-		
+	public ResultData<Integer> doModify(HttpSession httpSession, int id, String title, String body) {
+
 		boolean isLogined = false;
 		int loginedMemberId = 0;
-		
-		if(httpSession.getAttribute("loginedMemberId") != null) {
+
+		if (httpSession.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
 			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
 		}
-		
-		if(!isLogined) {
+
+		if (!isLogined) {
 			return ResultData.from("F-A", "로그인 후 이용해주세요");
 		}
-		
-		Article article = articleService.getArticle(id); 
-		
-		if(article == null) {
+
+		Article article = articleService.getArticle(id);
+
+		if (article == null) {
 			return ResultData.from("F-3", Ut.f("%d글은 존재하지 않습니다", id), "id", id);
 		}
-		
+
 		ResultData actorCanModifyRd = articleService.actorCanModify(loginedMemberId, article);
-		
-		if(actorCanModifyRd.isFail()) {
+
+		if (actorCanModifyRd.isFail()) {
 			return actorCanModifyRd;
 		}
-		
+
 		return articleService.modifyArticle(id, title, body);
 	}
-	
+
 	@RequestMapping("/usr/article/delete")
 	@ResponseBody
-	public ResultData<Integer> doDelete( HttpSession httpSession, int id){
-		
+	public ResultData<Integer> doDelete(HttpSession httpSession, int id) {
+
 		boolean isLogined = false;
 		int loginedMemberId = 0;
-		
-		if(httpSession.getAttribute("loginedMemberId") != null) {
+
+		if (httpSession.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
 			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
 		}
-		
-		if(!isLogined) {
+
+		if (!isLogined) {
 			return ResultData.from("F-A", "로그인 후 이용해주세요");
 		}
-		
-		Article article = articleService.getArticle(id); 
-		
-		if(article == null) {
+
+		Article article = articleService.getArticle(id);
+
+		if (article == null) {
 			return ResultData.from("F-4", Ut.f("%d번 글은 존재하지 않습니다", id), "id", id);
 		}
-		
-		if(article.getMemberId() != loginedMemberId) {
+
+		if (article.getMemberId() != loginedMemberId) {
 			return ResultData.from("F-4", Ut.f("%d번 글에 대한 권한이 없습니다", id), "id", id);
 		}
-		
+
 		articleService.deleteArticle(id);
-		
+
 		return ResultData.from("S-1", Ut.f("%d번 글을 삭제했습니다", id), "id", id);
 	}
 }
