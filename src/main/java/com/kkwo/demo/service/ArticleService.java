@@ -35,13 +35,13 @@ public class ArticleService {
 	public Article getForPrintArticle(int actorId, int id) {
 		Article article = articleRepository.getForPrintArticle(id);
 
-		updateForPrintData(actorId, article);
+		controlForPrintData(actorId, article);
 
 		return article;
 	}
 	
 	// 손 댈 수 있는지 여부
-	private void updateForPrintData(int actorId, Article article) {
+	private void controlForPrintData(int actorId, Article article) {
 		if (article == null) {
 			return;
 		}
@@ -65,6 +65,14 @@ public class ArticleService {
 		return ResultData.from("S-1", "삭제 가능");
 	}
 
+	/* 수정 권한 체크 */
+	public ResultData actorCanModify(int actorId, Article article) {
+		if (article.getMemberId() != actorId) {
+			return ResultData.from("F-3", "해당 글에 대한 권한이 없습니다");
+		}
+		return ResultData.from("S-1", "수정 가능");
+	}
+	
 	/* 출력용 게시글 목록 가져오기 */
 	public List<Article> getForPrintArticles() {
 		return articleRepository.getForPrintArticles();
@@ -84,11 +92,4 @@ public class ArticleService {
 		articleRepository.deleteArticle(id);
 	}
 
-	/* 수정 권한 체크 */
-	public ResultData actorCanModify(int loginedMemberId, Article article) {
-		if (article.getMemberId() != loginedMemberId) {
-			return ResultData.from("F-3", "해당 글에 대한 권한이 없습니다");
-		}
-		return ResultData.from("S-1", "수정 가능");
-	}
 }
