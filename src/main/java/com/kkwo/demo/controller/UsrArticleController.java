@@ -75,6 +75,7 @@ public class UsrArticleController {
 		return "usr/article/list";
 	}
 
+	/* 게시글 수정 */
 	@RequestMapping("/usr/article/modify")
 	@ResponseBody
 	public ResultData<Integer> doModify(HttpSession httpSession, int id, String title, String body) {
@@ -106,9 +107,10 @@ public class UsrArticleController {
 		return articleService.modifyArticle(id, title, body);
 	}
 
+	/* 게시글 삭제 */
 	@RequestMapping("/usr/article/delete")
 	@ResponseBody
-	public ResultData<Integer> doDelete(HttpSession httpSession, int id) {
+	public String doDelete(HttpSession httpSession, int id) {
 
 		boolean isLogined = false;
 		int loginedMemberId = 0;
@@ -119,21 +121,21 @@ public class UsrArticleController {
 		}
 
 		if (!isLogined) {
-			return ResultData.from("F-A", "로그인 후 이용해주세요");
+			return Ut.jsHistoryBack("F-A", "로그인 후 이용해주세요");
 		}
 
 		Article article = articleService.getArticle(id);
 
 		if (article == null) {
-			return ResultData.from("F-4", Ut.f("%d번 글은 존재하지 않습니다", id), "id", id);
+			return Ut.jsHistoryBack("F-4", Ut.f("%d번 글은 존재하지 않습니다", id));
 		}
 
 		if (article.getMemberId() != loginedMemberId) {
-			return ResultData.from("F-4", Ut.f("%d번 글에 대한 권한이 없습니다", id), "id", id);
+			return Ut.jsHistoryBack("F-4", Ut.f("%d번 글에 대한 권한이 없습니다", id));
 		}
 
 		articleService.deleteArticle(id);
 
-		return ResultData.from("S-1", Ut.f("%d번 글을 삭제했습니다", id), "id", id);
+		return Ut.jsReplace(Ut.f("%d번 글을 삭제했습니다", id), "../article/list");
 	}
 }

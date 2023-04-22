@@ -47,7 +47,7 @@
 			</c:if>
 			<c:if test="${article.actorCanDelete}">
 				<a class="btn-text-link" href="../article/delete?id=${article.id }"
-					onclick="if(confirm('정말삭제하시겠습니까?') == false) return false;">삭제</a>
+					onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;">삭제</a>
 			</c:if>
 		</div>
 	</div>
