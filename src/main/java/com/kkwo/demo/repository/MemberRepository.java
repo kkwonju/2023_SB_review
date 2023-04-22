@@ -20,13 +20,13 @@ public interface MemberRepository {
 			cellphoneNum = #{cellphoneNum},
 			email = #{email}
 			""")
-	void doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email);
+	public void doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email);
 
 	@Select("SELECT * FROM `member` WHERE id = #{id}")
-	Member getMemberById(int id);
+	public Member getMemberById(int id);
 
 	@Select("SELECT * FROM `member` WHERE loginId = #{loginId}")
-	Member getMemberByLoginId(String loginId);
+	public Member getMemberByLoginId(String loginId);
 	
 	@Select("""
 			SELECT *
@@ -34,8 +34,8 @@ public interface MemberRepository {
 			WHERE `name` = #{name}
 			AND email = #{email}
 			""")
-	Member getMemberByNameAndEmail(String name, String email);
+	public Member getMemberByNameAndEmail(String name, String email);
 	
 	@Select("SELECT LAST_INSERT_ID()")
-	int getLastInsertId();
+	public int getLastInsertId();
 }

@@ -53,11 +53,11 @@ public class UsrArticleController {
 		return ResultData.newData(writeRd, "Article", article);
 	}
 	
-	@RequestMapping("/usr/article/showArticle")
-	@ResponseBody
-	public ResultData<Article> showArticle(int id){
-		Article article = articleService.getArticle(id); 
-		return ResultData.from("S-1", Ut.f("%d번 게시글", id), "Article", article);
+	@RequestMapping("/usr/article/detail")
+	public String showDetail(Model model, int id){
+		Article article = articleService.getArticle(id);
+		model.addAttribute(article);
+		return "usr/article/detail";
 	}
 	
 	@RequestMapping("/usr/article/list")
