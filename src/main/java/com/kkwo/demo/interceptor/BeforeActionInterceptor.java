@@ -17,7 +17,7 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 	
 	@Override
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) throws Exception {
-		System.out.print("실행됌?");
+		System.out.println("실행됌?");
 		return HandlerInterceptor.super.preHandle(req, resp, handler);
 	}
 }
