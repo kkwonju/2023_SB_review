@@ -20,7 +20,7 @@ public class Ut {
 		return String.format(format, args);
 	}
 
-	/* javascript */
+	/* 접근 시 되돌려보내기 , javascript 문법으로 알림창 띄우기 */
 	public static String jsHistoryBack(String resultCode, String resultMsg) {
 		return Ut.f("""
 				<script>
@@ -33,6 +33,7 @@ public class Ut {
 				""", resultMsg);
 	}
 
+	/* 접근 시 특정 페이지로 ,  */
 	public static String jsReplace(String resultMsg, String uri) {
 		if(resultMsg == null) {
 			resultMsg = "";
@@ -49,6 +50,6 @@ public class Ut {
 				}
 				location.replace('%s');
 			</script>
-			""", resultMsg);
+			""", resultMsg, uri);
 	}
 }

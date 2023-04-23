@@ -82,12 +82,13 @@ SET regDate = NOW(),
 # 게시물 테이블에 작성자 정보 추가
 ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER `updateDate`;
 
+# 회원 데이터에 memberId 입력
 UPDATE article
-SET memberid = 2
+SET memberId = 2
 WHERE id IN(1,2);
 
 UPDATE article 
-SET memberid = 3
+SET memberId = 3
 WHERE id = 3;
 
 SELECT * FROM article;

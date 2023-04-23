@@ -1,5 +1,6 @@
 package com.kkwo.demo.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import com.kkwo.demo.service.MemberService;
 import com.kkwo.demo.util.Ut;
 import com.kkwo.demo.vo.Member;
 import com.kkwo.demo.vo.ResultData;
+import com.kkwo.demo.vo.Rq;
 
 @Controller
 public class UsrMemberController {
@@ -19,16 +21,12 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/join")
 	@ResponseBody
-	public ResultData<Member> doJoin(HttpSession httpSession, String loginId, String loginPw, String name,
+	public ResultData<Member> doJoin(HttpServletRequest req, String loginId, String loginPw, String name,
 			String nickname, String cellphoneNum, String email) {
 
-		boolean isLogined = false;
+		Rq rq = new Rq(req);
 
-		if (httpSession.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-		}
-
-		if (isLogined) {
+		if (rq.isLogined()) {
 			return ResultData.from("F-0", "로그아웃 후 이용해주세요");
 		}
 
@@ -64,15 +62,11 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/login")
 	@ResponseBody
-	public ResultData doLogin(HttpSession httpSession, String loginId, String loginPw) {
+	public ResultData doLogin(HttpServletRequest req, HttpSession httpSession, String loginId, String loginPw) {
 
-		boolean isLogined = false;
+		Rq rq = new Rq(req);
 
-		if (httpSession.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-		}
-
-		if (isLogined) {
+		if (rq.isLogined()) {
 			return ResultData.from("F-0", "이미 로그인 상태입니다");
 		}
 
@@ -101,15 +95,11 @@ public class UsrMemberController {
 	
 	@RequestMapping("/usr/member/logout")
 	@ResponseBody
-	public ResultData doLogout(HttpSession httpSession) {
+	public ResultData doLogout(HttpSession httpSession, HttpServletRequest req) {
 		
-		boolean isLogined = false;
+		Rq rq = new Rq(req);
 
-		if (httpSession.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-		}
-
-		if (!isLogined) {
+		if (!rq.isLogined()) {
 			return ResultData.from("F-0", "이미 로그아웃 상태입니다");
 		}
 		
