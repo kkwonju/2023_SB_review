@@ -8,12 +8,12 @@
 	<div class="container mx-auto px-3">
 		<div class="table-box-type-1">
 			<table>
-			<colgroup>
-				<col width="140"/>
-				<col width="140"/>
-				<col width="140"/>
-				<col width="140"/>
-			</colgroup>
+				<colgroup>
+					<col width="140" />
+					<col width="140" />
+					<col width="140" />
+					<col width="140" />
+				</colgroup>
 				<thead>
 					<tr>
 						<th>번호</th>
@@ -36,5 +36,4 @@
 		</div>
 	</div>
 </section>
-</body>
-</html>
+<%@ include file="../common/foot.jspf"%>

@@ -52,5 +52,4 @@
 		</div>
 	</div>
 </section>
-</body>
-</html>
+<%@ include file="../common/foot.jspf"%>

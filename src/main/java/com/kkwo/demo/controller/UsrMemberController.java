@@ -61,6 +61,11 @@ public class UsrMemberController {
 	}
 
 	@RequestMapping("/usr/member/login")
+	public String showLoginForm() {
+		return "usr/member/login";
+	}
+	
+	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
 	public ResultData doLogin(HttpServletRequest req, HttpSession httpSession, String loginId, String loginPw) {
 
