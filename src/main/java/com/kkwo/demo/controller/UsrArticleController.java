@@ -27,10 +27,6 @@ public class UsrArticleController {
 		
 		Rq rq = (Rq) req.getAttribute("rq");
 
-		if (!rq.isLogined()) {
-			return ResultData.from("F-A", "로그인 후 이용해주세요");
-		}
-
 		if (Ut.empty(title)) {
 			return ResultData.from("F-1", "제목을 입력해주세요");
 		}
@@ -71,10 +67,6 @@ public class UsrArticleController {
 	public ResultData<Integer> doModify(HttpServletRequest req , int id, String title, String body) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
-		
-		if (!rq.isLogined()) {
-			return ResultData.from("F-A", "로그인 후 이용해주세요");
-		}
 
 		Article article = articleService.getArticle(id);
 
@@ -97,10 +89,6 @@ public class UsrArticleController {
 	public String doDelete(HttpServletRequest req , int id) {
 		
 		Rq rq = (Rq) req.getAttribute("rq");
-
-		if (!rq.isLogined()) {
-			return Ut.jsHistoryBack("F-A", "로그인 후 이용해주세요");
-		}
 
 		Article article = articleService.getArticle(id);
 
