@@ -24,7 +24,7 @@ public class UsrMemberController {
 	public ResultData<Member> doJoin(HttpServletRequest req, String loginId, String loginPw, String name,
 			String nickname, String cellphoneNum, String email) {
 
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 
 		if (rq.isLogined()) {
 			return ResultData.from("F-0", "로그아웃 후 이용해주세요");
@@ -64,7 +64,7 @@ public class UsrMemberController {
 	@ResponseBody
 	public ResultData doLogin(HttpServletRequest req, HttpSession httpSession, String loginId, String loginPw) {
 
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 
 		if (rq.isLogined()) {
 			return ResultData.from("F-0", "이미 로그인 상태입니다");
@@ -97,7 +97,7 @@ public class UsrMemberController {
 	@ResponseBody
 	public ResultData doLogout(HttpSession httpSession, HttpServletRequest req) {
 		
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 
 		if (!rq.isLogined()) {
 			return ResultData.from("F-0", "이미 로그아웃 상태입니다");
