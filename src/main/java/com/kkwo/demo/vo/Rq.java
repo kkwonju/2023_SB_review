@@ -63,7 +63,11 @@ public class Rq {
 		session.removeAttribute("loginedMemberId");
 	}
 
-
+	public String jsHistoryBackOnView(String resultCode, String msg) {
+		req.setAttribute("msg", msg);
+		req.setAttribute("historyBack", true);
+		return "usr/common/js";
+	}
 	
 //	public void println(String str) {
 //		print(str+"\n");
