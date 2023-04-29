@@ -43,9 +43,9 @@ public class UsrArticleController {
 			return Ut.jsHistoryBack("F-2", "내용을 입력해주세요");
 		}
 		
-		ResultData writeRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body);
+		ResultData writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body);
 		
-		int id = (int) writeRd.getData1();
+		int id = (int) writeArticleRd.getData1();
 	
 		if(Ut.empty(replaceUri)) {
 			replaceUri = Ut.f("../article/detail?id=%d", id);
