@@ -3,6 +3,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="pageTitle" value="Article Detail" />
 <%@ include file="../common/head.jspf"%>
+<script>
+	const params = {};
+	params.id = ${param.id};
+</script>
+<script>
+	function ArticleDetail__increaseViewCount(){
+		
+	}
+</script>
+
 <hr />
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
@@ -28,6 +38,10 @@
 					<tr>
 						<th>작성자</th>
 						<td>${article.extra__writer }</td>
+					</tr>
+					<tr>
+						<th>조회 수</th>
+						<td>${article.hitCount}</td>
 					</tr>
 					<tr>
 						<th>제목</th>

@@ -59,9 +59,16 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
+		
+		ResultData increaseHitCountRd = articleService.increaseHitCount(id);
+		
+		if (increaseHitCountRd.isFail()) {
+			return rq.jsHistoryBackOnView(increaseHitCountRd.getResultMsg());
+		}
 
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
-		model.addAttribute(article);
+
+		model.addAttribute("article", article);
 		return "usr/article/detail";
 	}
 
@@ -73,11 +80,10 @@ public class UsrArticleController {
 		Board board = boardService.getBoardById(boardId);
 
 		if (board == null) {
-			return rq.jsHistoryBackOnView("F-1", "없는 게시판입니다");
+			return rq.jsHistoryBackOnView("없는 게시판입니다");
 		}
 
-		int articlesCount = articleService.getArticlesCount(boardId, searchKeywordTypeCode,
-				searchKeyword);
+		int articlesCount = articleService.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
 
 		int pageSize = 10;
 		int totalPage = (int) Math.ceil((double) articlesCount / pageSize);
@@ -87,7 +93,7 @@ public class UsrArticleController {
 
 		model.addAttribute("page", page);
 		model.addAttribute("board", board);
-		model.addAttribute("boardId", boardId);		
+		model.addAttribute("boardId", boardId);
 		model.addAttribute("articles", articles);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("articlesCount", articlesCount);
@@ -104,13 +110,13 @@ public class UsrArticleController {
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
 		if (article == null) {
-			return rq.jsHistoryBackOnView("F-3", Ut.f("%d번 글은 존재하지 않습니다", id));
+			return rq.jsHistoryBackOnView(Ut.f("%d번 글은 존재하지 않습니다", id));
 		}
 
 		ResultData actorCanModifyRd = articleService.actorCanModify(rq.getLoginedMemberId(), article);
 
 		if (actorCanModifyRd.isFail()) {
-			return rq.jsHistoryBackOnView(actorCanModifyRd.getResultCode(), actorCanModifyRd.getResultMsg());
+			return rq.jsHistoryBackOnView(actorCanModifyRd.getResultMsg());
 		}
 
 		model.addAttribute("article", article);

@@ -12,11 +12,12 @@
 				<div>
 					<form action="../article/list">
 						<input type="hidden" name="boardId" value="${boardId}"/> 
-						<select data-value="${searchKeywordTypeCode}" name="searchKeywordTypeCode">
-							<option value="title">제목</option>
+						<select data-value="${param.searchKeywordTypeCode}" name="searchKeywordTypeCode">
+							<option value="title" selected>제목</option>
 							<option value="body">내용</option>
+							<option value="title,body">제목 + 내용</option>
 						</select>
-						<input type="text" name="searchKeyword" value="${searchKeyword}"/>
+						<input type="text" name="searchKeyword" value="${param.searchKeyword}"/>
 						<button class="searchBtn">검색</button>
 					</form>
 				</div>
@@ -34,6 +35,7 @@
 						<th>날짜</th>
 						<th>제목</th>
 						<th>작성자</th>
+						<th>조회수</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -43,6 +45,7 @@
 							<td>${article.regDate.substring(2, 16) }</td>
 							<td><a class="hover:underline" href="detail?id=${article.id }">${article.title }</a></td>
 							<td>${article.extra__writer }</td>
+							<td>${article.hitCount }</td>
 						</tr>
 					</c:forEach>
 				</tbody>

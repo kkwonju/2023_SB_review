@@ -34,7 +34,6 @@ public class ArticleService {
 	/* 출력용 게시물 가져오기 */
 	public Article getForPrintArticle(int actorId, int id) {
 		Article article = articleRepository.getForPrintArticle(id);
-
 		controlForPrintData(actorId, article);
 
 		return article;
@@ -97,6 +96,16 @@ public class ArticleService {
 
 	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword) {
 		return articleRepository.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
+	}
+
+	public ResultData increaseHitCount(int id) {
+		int affectRow =  articleRepository.increaseHitCount(id);
+		
+		if(affectRow == 0) {
+			return ResultData.from("F-1", "해당 게시물이 없습니다", "affectRow", affectRow);
+		}
+		
+		return ResultData.from("S-1", "조회수 증가", "affectRow", affectRow);
 	}
 
 }

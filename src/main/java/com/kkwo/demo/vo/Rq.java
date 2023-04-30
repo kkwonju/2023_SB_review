@@ -62,7 +62,7 @@ public class Rq {
 		print(Ut.jsReplace("F-A", msg, uri));
 	}
 
-	public String jsHistoryBackOnView(String resultCode, String msg) {
+	public String jsHistoryBackOnView(String msg) {
 		req.setAttribute("msg", msg);
 		req.setAttribute("historyBack", true);
 		return "usr/common/js";
