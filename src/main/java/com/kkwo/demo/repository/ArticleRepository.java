@@ -48,9 +48,10 @@ public interface ArticleRepository {
 				AND boardId = #{boardId}
 			</if>
 			ORDER BY A.id DESC
+			LIMIT #{pageStart}, #{pageSize}
 			</script>
 			""")
-	public List<Article> getForPrintArticles(int boardId);
+	public List<Article> getForPrintArticles(int boardId, int pageStart, int pageSize);
 	
 	public void modifyArticle(int id, String title, String body);
 	

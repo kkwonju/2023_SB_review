@@ -34,6 +34,20 @@
 					</c:forEach>
 				</tbody>
 			</table>
+			
+			<c:set var="pageRange" value="5" />
+			<c:set var="start" value="${page - pageRange < 1 ? 1 : page - pageRange}"/>
+			<c:set var="end" value="${page + pageRange > totalPage ? totalPage : page + pageRange}"/>
+			
+			<c:if test="${page > 1}">
+				<a href="list?boardId=${board.id}&page=1"> << </a>
+			</c:if>
+			<c:forEach begin="${start}" end="${end}" var="i">
+				<a class="${page == i ? 'btn-active' : ''}" href="list?boardId=${board.id}&page=${i}">${i}</a>
+			</c:forEach>
+			<c:if test="${page < totalPage}">
+				<a href="list?boardId=${board.id}&page=${totalPage}"> >> </a>
+			</c:if>
 		</div>
 	</div>
 </section>
