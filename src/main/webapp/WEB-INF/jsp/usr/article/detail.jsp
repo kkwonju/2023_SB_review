@@ -10,6 +10,14 @@
 
 <script>
 	function ArticleDetail__increaseHitCount(){
+		const localStorageKey = 'article__' + params.id + '__alreadyView';
+		
+		if(localStorage.getItem(localStorageKey)){
+			return;
+		}
+		
+		localStorage.setItem(localStorageKey, true);
+		
 		$.get('../article/doIncreaseHitCountRd', {
 			id: params.id,
 			ajaxMode: 'Y'
@@ -19,8 +27,8 @@
 	}
 	
 	$(function(){
-// 		ArticleDetail__increaseHitCount();
-		setTimeout(ArticleDetail__increaseHitCount, 2000);
+		ArticleDetail__increaseHitCount();
+// 		setTimeout(ArticleDetail__increaseHitCount, 2000);
 	})
 </script>
 <hr />

@@ -75,7 +75,11 @@ public class UsrArticleController {
 		if (increaseHitCountRd.isFail()) {
 			return increaseHitCountRd;
 		}
-		return ResultData.newData(increaseHitCountRd, "hitCount", articleService.getArticleHitCount(id));
+		
+		ResultData rd = ResultData.newData(increaseHitCountRd, "hitCount", articleService.getArticleHitCount(id));
+		
+		rd.setData2("id", id);
+		return rd; 
 	}
 
 	@RequestMapping("/usr/article/list")
