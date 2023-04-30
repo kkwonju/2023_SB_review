@@ -54,3 +54,22 @@ html > body {
 	text-decoration: underline;
 	color: deepskyblue;
 }
+
+header {
+	background-color: #9C824A;
+}
+
+header > div ul > li:hover {
+	background-color: white;
+}
+
+header > div > ul > li > ul {
+	display: none;
+	position: absolute;
+	font-size: 0.8em;
+	background-color: #9C824A;
+}
+
+header > div > ul > li:hover > ul {
+	display: block;
+}

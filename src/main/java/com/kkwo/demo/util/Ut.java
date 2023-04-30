@@ -52,6 +52,4 @@ public class Ut {
 			</script>
 			""", resultMsg, uri);
 	}
-	
-
 }

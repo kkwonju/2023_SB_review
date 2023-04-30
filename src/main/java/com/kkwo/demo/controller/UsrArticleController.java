@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kkwo.demo.service.ArticleService;
+import com.kkwo.demo.service.BoardService;
 import com.kkwo.demo.util.Ut;
 import com.kkwo.demo.vo.Article;
+import com.kkwo.demo.vo.Board;
 import com.kkwo.demo.vo.ResultData;
 import com.kkwo.demo.vo.Rq;
 
@@ -20,6 +23,8 @@ import com.kkwo.demo.vo.Rq;
 public class UsrArticleController {
 	@Autowired
 	private ArticleService articleService;
+	@Autowired
+	private BoardService boardService;
 
 	
 	
@@ -65,9 +70,19 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model) {
-		List<Article> articles = articleService.getForPrintArticles();
+	public String showList(HttpServletRequest req, Model model, int boardId) {
+		Rq rq = (Rq) req.getAttribute("rq");
+		
+		Board board = boardService.getBoardById(boardId);
+		if(board == null) {
+			return rq.jsHistoryBackOnView("F-1", "없는 게시판입니다");
+		}
+		
+		List<Article> articles = articleService.getForPrintArticles(boardId);
+		
+		model.addAttribute("board", board);
 		model.addAttribute("articles", articles);
+		
 		return "usr/article/list";
 	}
 
