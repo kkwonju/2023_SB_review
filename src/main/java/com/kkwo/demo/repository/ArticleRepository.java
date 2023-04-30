@@ -12,15 +12,15 @@ import com.kkwo.demo.vo.Article;
 
 @Mapper
 public interface ArticleRepository {
-	public void writeArticle(int memberId, String title ,String body, int boardId);
-	
+	public void writeArticle(int memberId, String title, String body, int boardId);
+
 	@Select("""
 			SELECT *
 			FROM article
 			WHERE id = #{id}
 			""")
 	public Article getArticle(int id);
-	
+
 	@Select("""
 			SELECT *, M.nickname AS extra__writer
 			FROM article AS A
@@ -29,14 +29,14 @@ public interface ArticleRepository {
 			WHERE A.id = #{id}
 			""")
 	public Article getForPrintArticle(int id);
-	
+
 	@Select("""
 			SELECT *
 			FROM article
 			ORDER BY id DESC
 			""")
 	public List<Article> getArticles();
-	
+
 	@Select("""
 			<script>
 			SELECT *, M.nickname AS extra__writer
@@ -47,27 +47,57 @@ public interface ArticleRepository {
 			<if test="boardId != 0">
 				AND boardId = #{boardId}
 			</if>
+			<if test="searchKeyword != ''">
+				<choose>
+					<when test="searchKeywordTypeCode == 'title'">
+						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<when test="searchKeywordTypeCode == 'body'">
+						AND A.body LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<otherwise>
+						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
+						OR A.body LIKE CONCAT('%',#{searchKeyword},'%')
+					</otherwise>
+				</choose>
+			</if>
 			ORDER BY A.id DESC
 			LIMIT #{pageStart}, #{pageSize}
 			</script>
 			""")
-	public List<Article> getForPrintArticles(int boardId, int pageStart, int pageSize);
-	
+	public List<Article> getForPrintArticles(int boardId, int pageStart, int pageSize, String searchKeywordTypeCode,
+			String searchKeyword);
+
 	public void modifyArticle(int id, String title, String body);
-	
+
 	public void deleteArticle(int id);
-	
+
 	public int getLastInsertId();
 
 	@Select("""
 			<script>
 			SELECT COUNT(*)
-			FROM article
+			FROM article AS A
 			WHERE 1
 			<if test="boardId != 0">
 				AND boardId = #{boardId}
 			</if>
+			<if test="searchKeyword != ''">
+				<choose>
+					<when test="searchKeywordTypeCode == 'title'">
+						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<when test="searchKeywordTypeCode == 'body'">
+						AND A.body LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<otherwise>
+						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
+						OR A.body LIKE CONCAT('%',#{searchKeyword},'%')
+					</otherwise>
+				</choose>
+			</if>
 			</script>
 			""")
-	public int getArticlesCountByBoardId(int boardId);
+	public int getArticlesCount(int boardId, String searchKeywordTypeCode,
+			String searchKeyword);
 }

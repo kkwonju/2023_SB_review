@@ -66,25 +66,33 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, @RequestParam(defaultValue = "1") int boardId, @RequestParam(defaultValue = "1") int page) {
+	public String showList(Model model, @RequestParam(defaultValue = "1") int boardId,
+			@RequestParam(defaultValue = "title,body") String searchKeywordTypeCode,
+			@RequestParam(defaultValue = "") String searchKeyword, @RequestParam(defaultValue = "1") int page) {
 
 		Board board = boardService.getBoardById(boardId);
+
 		if (board == null) {
 			return rq.jsHistoryBackOnView("F-1", "없는 게시판입니다");
 		}
 
-		int articlesCount = articleService.getArticlesCountByBoardId(boardId);
-		
+		int articlesCount = articleService.getArticlesCount(boardId, searchKeywordTypeCode,
+				searchKeyword);
+
 		int pageSize = 10;
-		int totalPage = (int) Math.ceil((double)articlesCount/pageSize);
-		
-		List<Article> articles = articleService.getForPrintArticles(boardId, page, pageSize);
+		int totalPage = (int) Math.ceil((double) articlesCount / pageSize);
+
+		List<Article> articles = articleService.getForPrintArticles(boardId, page, pageSize, searchKeywordTypeCode,
+				searchKeyword);
 
 		model.addAttribute("page", page);
 		model.addAttribute("board", board);
+		model.addAttribute("boardId", boardId);		
 		model.addAttribute("articles", articles);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("articlesCount", articlesCount);
+		model.addAttribute("searchKeyword", searchKeyword);
+		model.addAttribute("searchKeywordTypeCode", searchKeywordTypeCode);
 
 		return "usr/article/list";
 	}

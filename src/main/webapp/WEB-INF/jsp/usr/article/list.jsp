@@ -4,16 +4,29 @@
 <c:set var="pageTitle" value="${board.code}" />
 <%@ include file="../common/head.jspf"%>
 
-<section class="mt-8 text-xl">
-	<div class="container mx-auto px-3">
-		<div class="table-box-type-1">
-			<h1>${articlesCount}개</h1>
+<section class="main-box-1">
+	<div class="list-box">
+		<div class="list-article-box">
+			<div class="info">
+				<div>${articlesCount}개</div>
+				<div>
+					<form action="../article/list">
+						<input type="hidden" name="boardId" value="${boardId}"/> 
+						<select data-value="${searchKeywordTypeCode}" name="searchKeywordTypeCode">
+							<option value="title">제목</option>
+							<option value="body">내용</option>
+						</select>
+						<input type="text" name="searchKeyword" value="${searchKeyword}"/>
+						<button class="searchBtn">검색</button>
+					</form>
+				</div>
+			</div>
 			<table>
 				<colgroup>
-					<col width="140" />
-					<col width="140" />
-					<col width="140" />
-					<col width="140" />
+					<col width="" />
+					<col width="" />
+					<col width="" />
+					<col width="" />
 				</colgroup>
 				<thead>
 					<tr>
@@ -34,19 +47,26 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			
+		</div>
+		<div class="list-page-box">
+			<c:set var="baseUri" value="?boardId=${boardId}"/>
+			<c:set var="baseUri" value="${baseUri}&searchKeywordTypeCode=${searchKeywordTypeCode}"/>
+			<c:set var="baseUri" value="${baseUri}&searchKeyword=${searchKeyword}"/>
+		
 			<c:set var="pageRange" value="5" />
-			<c:set var="start" value="${page - pageRange < 1 ? 1 : page - pageRange}"/>
-			<c:set var="end" value="${page + pageRange > totalPage ? totalPage : page + pageRange}"/>
-			
+			<c:set var="start" value="${page - pageRange < 1 ? 1 : page - pageRange}" />
+			<c:set var="end"
+				value="${page + pageRange > totalPage ? totalPage : page + pageRange}" />
+
 			<c:if test="${page > 1}">
-				<a href="list?boardId=${board.id}&page=1"> << </a>
+				<a href="${baseUri}&page=1"> << </a>
 			</c:if>
 			<c:forEach begin="${start}" end="${end}" var="i">
-				<a class="${page == i ? 'btn-active' : ''}" href="list?boardId=${board.id}&page=${i}">${i}</a>
+				<a class="${page == i ? 'btn-active' : ''}"
+					href="${baseUri}&page=${i}">${i}</a>
 			</c:forEach>
 			<c:if test="${page < totalPage}">
-				<a href="list?boardId=${board.id}&page=${totalPage}"> >> </a>
+				<a href="${baseUri}&page=${totalPage}"> >> </a>
 			</c:if>
 		</div>
 	</div>

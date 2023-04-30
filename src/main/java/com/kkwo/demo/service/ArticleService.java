@@ -39,7 +39,7 @@ public class ArticleService {
 
 		return article;
 	}
-	
+
 	// 손 댈 수 있는지 여부
 	private void controlForPrintData(int actorId, Article article) {
 		if (article == null) {
@@ -48,11 +48,11 @@ public class ArticleService {
 
 		ResultData actorCanModifyRd = actorCanModify(actorId, article);
 		article.setActorCanModify(actorCanModifyRd.isSuccess());
-		
+
 		ResultData actorCanDeleteRd = actorCanDelete(actorId, article);
 		article.setActorCanDelete(actorCanDeleteRd.isSuccess());
 	}
-	
+
 	/* 삭제 권한 체크 */
 	private ResultData actorCanDelete(int actorId, Article article) {
 		if (article == null) {
@@ -72,11 +72,13 @@ public class ArticleService {
 		}
 		return ResultData.from("S-1", "수정 가능");
 	}
-	
+
 	/* 출력용 게시글 목록 가져오기 */
-	public List<Article> getForPrintArticles(int boardId, int page, int pageSize) {
+	public List<Article> getForPrintArticles(int boardId, int page, int pageSize, String searchKeywordTypeCode,
+			String searchKeyword) {
 		int pageStart = (page - 1) * pageSize;
-		return articleRepository.getForPrintArticles(boardId, pageStart, pageSize);
+		return articleRepository.getForPrintArticles(boardId, pageStart, pageSize, searchKeywordTypeCode,
+				searchKeyword);
 	}
 
 	/* 게시글 수정 */
@@ -93,8 +95,8 @@ public class ArticleService {
 		articleRepository.deleteArticle(id);
 	}
 
-	public int getArticlesCountByBoardId(int boardId) {
-		return articleRepository.getArticlesCountByBoardId(boardId);
+	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword) {
+		return articleRepository.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
 	}
 
 }

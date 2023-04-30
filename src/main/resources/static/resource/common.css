@@ -35,6 +35,7 @@
 	font-family: 'LotteMartDream', sans-serif;
 }
 
+
 html > body {
 	font-family: 'LotteMartDream', sans-serif;
 }
@@ -55,26 +56,118 @@ html > body {
 	color: deepskyblue;
 }
 
+/* header 커스텀 */
 header {
-	background-color: #9C824A;
+	background-color: #A60303;
+	color: white;
 }
 
 header > div ul > li:hover {
 	background-color: white;
+	color: #A60303;
 }
 
 header > div > ul > li > ul {
 	display: none;
 	position: absolute;
 	font-size: 0.8em;
-	background-color: #9C824A;
+	background-color: #A60303;
+	color: white;
 }
 
 header > div > ul > li:hover > ul {
 	display: block;
 }
 
-.btn-active {
-	display: inline=flex;
-	color: red;
+header > div > ul > li > ul > li > a {
+	display: block;
+	white-space: nowrap;
+	padding: 5px;
+	font-size: 0.8em;
+}
+
+/* list 커스텀 */
+section > div > div > div {
+	font-size: 1.3rem;
+}
+
+.main-box-1 {
+	background-color: white;
+	max-width: 1024px;
+	margin-left: auto;
+	margin-right: auto;
+	box-shadow: 2px 4px 4px 2px rgba(0,0,0,0.5);
+	border-radius: 5px;
+	padding: 10px;
+}
+
+.main-box-1 > .list-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.main-box-1 > .list-box > .list-article-box {
+	width: 100%;
+}
+
+.main-box-1 > .list-box > .list-article-box > .info {
+	display: flex;
+	justify-content: space-between;
+	margin: 10px 0;
+}
+
+.main-box-1 > .list-box > .list-article-box > .info > div > form {
+	display: flex;
+}
+
+.searchBtn {
+	padding: 8px;
+	background-color: #234778;
+	color: white;
+	transition: .1s;
+}
+
+.searchBtn:active {
+	scale: 0.9;
+}
+	
+.main-box-1 > .list-box > .list-article-box > table {
+	width: 100%;
+	text-align: center;
+	font-size: 1.3em;
+}
+
+table, tr, th, td {
+	border: 1px solid black;
+	padding: 10px 0;
+}
+
+.main-box-1 > .list-box > .list-page-box {
+	margin-top: 20px;
+}
+
+.main-box-1 > .list-box > .list-page-box > a {
+	display: inline-block;
+	background-color: black;
+	padding: 3px 20px;
+	border-radius: 5px;
+	color: white;
+	transition: .1s;
+}
+
+.main-box-1 > .list-box > .list-page-box > a:hover {
+	background-color: #234778;
+	scale: 1.1;
+}
+
+.main-box-1 > .list-box > .list-page-box > a:active {
+	background-color: #234778;
+	scale: 0.9;
+}
+
+.main-box-1 > .list-box > .list-page-box > a.btn-active {
+	background-color: #234778;
+	margin: 0 5px;
+	scale: 1.2;
 }
