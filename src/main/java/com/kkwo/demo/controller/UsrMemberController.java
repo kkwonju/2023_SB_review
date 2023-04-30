@@ -1,6 +1,5 @@
 package com.kkwo.demo.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +17,13 @@ import com.kkwo.demo.vo.Rq;
 public class UsrMemberController {
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private Rq rq;
 
 	@RequestMapping("/usr/member/join")
 	@ResponseBody
-	public ResultData<Member> doJoin(HttpServletRequest req, String loginId, String loginPw, String name,
-			String nickname, String cellphoneNum, String email) {
-
-		Rq rq = (Rq) req.getAttribute("rq");
+	public ResultData<Member> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
+			String email) {
 
 		if (rq.isLogined()) {
 			return ResultData.from("F-0", "로그아웃 후 이용해주세요");
@@ -64,12 +63,10 @@ public class UsrMemberController {
 	public String showLoginForm() {
 		return "usr/member/login";
 	}
-	
+
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(HttpServletRequest req, HttpSession httpSession, String loginId, String loginPw) {
-
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doLogin(HttpSession httpSession, String loginId, String loginPw) {
 
 		if (rq.isLogined()) {
 			return Ut.jsHistoryBack("F-0", "이미 로그인 상태입니다");
@@ -82,34 +79,32 @@ public class UsrMemberController {
 		if (Ut.empty(loginPw)) {
 			Ut.jsHistoryBack("F-2", "비밀번호를 입력해주세요");
 		}
-		
+
 		Member member = memberService.getMemberByLoginId(loginId);
-		
-		if(member == null) {
+
+		if (member == null) {
 			return Ut.jsHistoryBack("F-3", "아이디 또는 비밀번호를 확인해주세요");
 		}
-		
-		if(!member.getLoginPw().equals(loginPw)) {
+
+		if (!member.getLoginPw().equals(loginPw)) {
 			return Ut.jsHistoryBack("F-4", "아이디 또는 비밀번호를 확인해주세요");
 		}
-		
+
 		rq.login(member);
-		
+
 		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다", member.getNickname()), "/");
 	}
-	
+
 	@RequestMapping("/usr/member/logout")
 	@ResponseBody
-	public String doLogout(HttpSession httpSession, HttpServletRequest req) {
-		
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doLogout(HttpSession httpSession) {
 
 		if (!rq.isLogined()) {
 			return Ut.jsHistoryBack("F-0", "이미 로그아웃 상태입니다");
 		}
-		
+
 		rq.logout();
-		
+
 		return Ut.jsReplace("S-1", "로그아웃 되었습니다", "/");
 	}
 

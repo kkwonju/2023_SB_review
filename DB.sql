@@ -135,6 +135,14 @@ SET boardId = 3
 WHERE id IN (4,5);
 
 
+# 게시물 생성
+INSERT INTO article (
+    regDate, updateDate, memberId, boardId, title, `body`
+)
+SELECT NOW(), NOW(), FLOOR(RAND() * 2) + 2, FLOOR(RAND() * 2) + 2, CONCAT('제목_',RAND()), CONCAT('내용_',RAND())
+FROM article; 
+ 
+
 ##############################################
 
 SELECT * FROM article;
