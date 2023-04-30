@@ -57,4 +57,16 @@ public interface ArticleRepository {
 	public void deleteArticle(int id);
 	
 	public int getLastInsertId();
+
+	@Select("""
+			<script>
+			SELECT COUNT(*)
+			FROM article
+			WHERE 1
+			<if test="boardId != 0">
+				AND boardId = #{boardId}
+			</if>
+			</script>
+			""")
+	public int getArticlesCountByBoardId(int boardId);
 }

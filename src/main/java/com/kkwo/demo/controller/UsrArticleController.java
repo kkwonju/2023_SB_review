@@ -78,9 +78,11 @@ public class UsrArticleController {
 			return rq.jsHistoryBackOnView("F-1", "없는 게시판입니다");
 		}
 		
+		int articlesCount = articleService.getArticlesCountByBoardId(boardId);
 		List<Article> articles = articleService.getForPrintArticles(boardId);
 		
 		model.addAttribute("board", board);
+		model.addAttribute("articlesCount", articlesCount);
 		model.addAttribute("articles", articles);
 		
 		return "usr/article/list";
