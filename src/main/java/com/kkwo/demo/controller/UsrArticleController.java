@@ -36,7 +36,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public String doWrite(String title, String body, String replaceUri) {
+	public String doWrite(String title, String body, int boardId, String replaceUri) {
 
 		if (Ut.empty(title)) {
 			return Ut.jsHistoryBack("F-1", "제목을 입력해주세요");
@@ -46,12 +46,12 @@ public class UsrArticleController {
 			return Ut.jsHistoryBack("F-2", "내용을 입력해주세요");
 		}
 
-		ResultData writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body);
+		ResultData writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body, boardId);
 
 		int id = (int) writeArticleRd.getData1();
 
 		if (Ut.empty(replaceUri)) {
-			replaceUri = Ut.f("../article/detail?id=%d", id);
+			replaceUri = "../article/list";
 		}
 
 		return Ut.jsReplace("S-1", Ut.f("%d번 글이 생성되었습니다", id), replaceUri);
@@ -66,7 +66,7 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, int boardId) {
+	public String showList(Model model, @RequestParam(defaultValue = "1") int boardId) {
 
 		Board board = boardService.getBoardById(boardId);
 		if (board == null) {

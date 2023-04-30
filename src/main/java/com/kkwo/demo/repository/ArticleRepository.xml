@@ -9,10 +9,12 @@
 		INSERT INTO article
 		SET regDate = NOW(),
 		updateDate = NOW(),
+		memberId = #{memberId},
+		boardId = #{boardId},
 		title = #{title},
-		`body` = #{body},
-		memberId = #{memberId}
+		`body` = #{body}
 	</insert>
+	
 	<!-- resultType="com.kkwo.demo.vo.Article" 써줘야하지만 application.yml에 써있으면 
 		생략가능 mybatis: type-aliases-package: com.kkwo.demo.vo -->
 	<update id="modifyArticle">
@@ -28,12 +30,15 @@
 		</set>
 		WHERE id = #{id}
 	</update>
+	
 	<delete id="deleteArticle">
 		DELETE
 		FROM article
 		WHERE id = #{id}
 	</delete>
+	
 	<select id="getLastInsertId" resultType="int">
 		SELECT LAST_INSERT_ID()
 	</select>
+	
 </mapper>

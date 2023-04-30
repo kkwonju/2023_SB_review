@@ -15,6 +15,16 @@
 					</colgroup>
 					<tbody>
 						<tr>
+							<th>게시판 선택</th>
+							<td>
+							<select name="boardId">
+								<option value="1">공지사항</option>
+								<option value="2" selected>자유게시</option>
+								<option value="3">질의응답</option>
+							</select>
+							</td>
+						</tr>
+						<tr>
 							<th>제목</th>
 							<td><input autocomplete="off" type="text" name="title" /></td>
 						</tr>
