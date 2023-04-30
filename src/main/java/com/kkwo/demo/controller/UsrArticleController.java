@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.taglibs.standard.tag.common.core.RedirectSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,17 +60,22 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
-		
-		ResultData increaseHitCountRd = articleService.increaseHitCount(id);
-		
-		if (increaseHitCountRd.isFail()) {
-			return rq.jsHistoryBackOnView(increaseHitCountRd.getResultMsg());
-		}
 
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
 		model.addAttribute("article", article);
 		return "usr/article/detail";
+	}
+
+	@RequestMapping("/usr/article/doIncreaseHitCountRd")
+	@ResponseBody
+	public ResultData doIncreaseHitCountRd(int id) {
+		ResultData increaseHitCountRd = articleService.increaseHitCount(id);
+
+		if (increaseHitCountRd.isFail()) {
+			return increaseHitCountRd;
+		}
+		return ResultData.newData(increaseHitCountRd, "hitCount", articleService.getArticleHitCount(id));
 	}
 
 	@RequestMapping("/usr/article/list")
