@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kkwo.demo.service.ArticleService;
 import com.kkwo.demo.service.BoardService;
+import com.kkwo.demo.service.ReactionPointService;
 import com.kkwo.demo.util.Ut;
 import com.kkwo.demo.vo.Article;
 import com.kkwo.demo.vo.Board;
@@ -26,6 +27,8 @@ public class UsrArticleController {
 	private ArticleService articleService;
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private ReactionPointService reactionPointService;
 	@Autowired
 	private Rq rq;
 
@@ -62,14 +65,11 @@ public class UsrArticleController {
 	public String showDetail(Model model, int id) {
 
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
-		
-		// 반응의 조건
-		// 1. 로그인되어 있는가?
-		// 2. 같은 게시글에 반응한 적이 없는가
-		boolean actorCanMakeReaction = articleService.actorCanMakeReaction(rq.getLoginedMemberId(), id);
 
-		model.addAttribute("actorCanMakeReaction", actorCanMakeReaction);
+		boolean actorCanMakeReaction = reactionPointService.actorCanMakeReaction(rq.getLoginedMemberId(), "article", id);
+
 		model.addAttribute("article", article);
+		model.addAttribute("actorCanMakeReaction", actorCanMakeReaction);
 		return "usr/article/detail";
 	}
 

@@ -119,13 +119,4 @@ public interface ArticleRepository {
 			</script>
 			""")
 	public int getArticleHitCount(int id);
-
-	@Select("""
-			SELECT COUNT(*)
-			FROM reactionPoint
-			WHERE relTypeCode = 'article'
-			AND memberId = #{actorId}
-			AND relId = #{relId}
-			""")
-	public int actorCanMakeReaction(int actorId, int relId);
 }
