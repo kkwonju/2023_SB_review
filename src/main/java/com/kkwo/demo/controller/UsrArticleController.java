@@ -62,7 +62,13 @@ public class UsrArticleController {
 	public String showDetail(Model model, int id) {
 
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
+		
+		// 반응의 조건
+		// 1. 로그인되어 있는가?
+		// 2. 같은 게시글에 반응한 적이 없는가
+		boolean actorCanMakeReaction = articleService.actorCanMakeReaction(rq.getLoginedMemberId(), id);
 
+		model.addAttribute("actorCanMakeReaction", actorCanMakeReaction);
 		model.addAttribute("article", article);
 		return "usr/article/detail";
 	}
