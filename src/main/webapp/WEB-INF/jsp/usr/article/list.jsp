@@ -35,6 +35,9 @@
 						<th>날짜</th>
 						<th>제목</th>
 						<th>작성자</th>
+						<th>반응 합</th>
+						<th>좋아요</th>
+						<th>싫어요</th>
 						<th>조회수</th>
 					</tr>
 				</thead>
@@ -45,6 +48,9 @@
 							<td>${article.regDate.substring(2, 16) }</td>
 							<td><a class="hover:underline" href="detail?id=${article.id }">${article.title }</a></td>
 							<td>${article.extra__writer }</td>
+							<td>${article.extra__sumReactionPoint }</td>
+							<td>${article.extra__goodReactionPoint }</td>
+							<td>${article.extra__badReactionPoint }</td>
 							<td>${article.hitCount }</td>
 						</tr>
 					</c:forEach>
