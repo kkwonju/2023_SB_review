@@ -23,17 +23,11 @@ public interface ArticleRepository {
 
 	@Select("""
 			<script>
-			SELECT A.*, M.nickname AS extra__writer,
-			IFNULL(SUM(RP.point), 0) AS extra__sumReactionPoint,
-			IFNULL(SUM(IF(RP.point &gt; 0, RP.point, 0)), 0) AS extra__goodReactionPoint,
-			IFNULL(SUM(IF(RP.point &lt; 0, RP.point, 0)), 0) AS extra__badReactionPoint
+			SELECT A.*, M.nickname AS extra__writer
 			FROM article AS A
 			INNER JOIN `member` AS M
 			ON A.memberId = M.id
-			LEFT JOIN reactionPoint AS RP
-			ON A.id = RP.relId
 			WHERE A.id = #{id}
-			GROUP BY A.id;
 			</script>
 			""")
 	public Article getForPrintArticle(int id);
@@ -47,15 +41,10 @@ public interface ArticleRepository {
 
 	@Select("""
 			<script>
-			SELECT *, M.nickname AS extra__writer,
-			IFNULL(SUM(RP.point), 0) AS extra__sumReactionPoint,
-			IFNULL(SUM(IF(RP.point &gt; 0, RP.point, 0)), 0) AS extra__goodReactionPoint,
-			IFNULL(SUM(IF(RP.point &lt; 0, RP.point, 0)), 0) AS extra__badReactionPoint
+			SELECT *, M.nickname AS extra__writer
 			FROM article AS A
 			INNER JOIN `member` AS M
 			ON A.memberId = M.id
-			LEFT JOIN reactionPoint AS RP
-			ON A.id = RP.relId
 			WHERE 1
 			<if test="boardId != 0">
 				AND boardId = #{boardId}
@@ -74,7 +63,6 @@ public interface ArticleRepository {
 					</otherwise>
 				</choose>
 			</if>
-			GROUP BY A.id
 			ORDER BY A.id DESC
 			LIMIT #{pageStart}, #{pageSize}
 			</script>

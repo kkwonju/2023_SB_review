@@ -62,23 +62,14 @@
 						<td class="article-detail__hit-count">${article.hitCount}</td>
 					</tr>
 					<tr>
-						<th>반응 합계</th>
-						<td>${article.extra__sumReactionPoint}</td>
-					</tr>
-					<tr>
-						<th>좋아요</th>
-						<td>${article.extra__goodReactionPoint} 
-							<c:if test="${actorCanMakeReaction}">
-								<button>좋아요</button>
-							</c:if>
-						</td>
-					</tr>
-					<tr>
-						<th>싫어요</th>
+						<th>추천</th>
 						<td>
-							${article.extra__badReactionPoint}
+								<span>좋아요 : ${article.goodReactionPoint}</span>
+								<span>싫어요 : ${article.badReactionPoint}</span>
+								<br />
 							<c:if test="${actorCanMakeReaction}">
-								<button>싫어요</button>
+								<button>👍</button>
+								<button>👎</button>
 							</c:if>
 						</td>
 					</tr>

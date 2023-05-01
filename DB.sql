@@ -186,6 +186,25 @@ memberId = 3,
 relTypeCode = 'article',
 relId = 2,
 `point` = -1;
+
+ALTER TABLE article ADD COLUMN goodReactionPoint INT(10) UNSIGNED NOT NULL;
+ALTER TABLE article ADD COLUMN badReactionPoint INT(10) UNSIGNED NOT NULL;
+
+# RP의 데이터를 Article에 저장해야함
+# Article의 good, bad에 들어갈 것들
+UPDATE article AS A
+INNER JOIN (
+    SELECT
+    RP.relTypeCode, RP.relId,
+    IFNULL(SUM(IF(RP.point > 0, RP.point, 0)), 0) AS goodReactionPoint,
+    IFNULL(SUM(IF(RP.point < 0, RP.point * -1, 0)), 0) AS badReactionPoint
+    FROM reactionPoint AS RP
+    GROUP BY RP.relTypeCode, RP.relId
+) AS RP_SUM
+ON A.id = RP_SUM.relId
+SET A.goodReactionPoint = RP_SUM.goodReactionPoint,
+A.badReactionPoint = RP_SUM.badReactionPoint;
+
 ##############################################
 
 SELECT * FROM article;
@@ -193,5 +212,17 @@ SELECT * FROM `member`;
 SELECT * FROM board;
 SELECT * FROM reactionPoint;
 
-
 SELECT LAST_INSERT_ID();
+
+# 게시물 가져오기 + 작성자 닉네임 + 반응
+SELECT A.*, M.nickname,
+IFNULL(SUM(RP.point), 0) AS extra__sumReactionPoint,
+IFNULL(SUM(IF(RP.point > 0, RP.point, 0)), 0) AS extra__goodReactionPoint,
+IFNULL(SUM(IF(RP.point < 0, RP.point, 0)), 0) AS extra__badReactionPoint
+FROM article AS A
+INNER JOIN `member` AS M
+ON A.memberId = M.id
+LEFT JOIN reactionPoint AS RP
+ON A.id = RP.relId
+WHERE A.id = 1
+GROUP BY A.id;
